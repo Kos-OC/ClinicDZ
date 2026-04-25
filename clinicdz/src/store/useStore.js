@@ -6,6 +6,7 @@ import { defaultAnalyses } from '../data/defaultAnalyses';
 const savedState = storage.loadData();
 
 const initialState = {
+  theme: savedState?.theme || 'light',
   doctor: savedState?.doctor || {
     prenom: '',
     nom: '',
@@ -93,6 +94,13 @@ export const useStore = create((set) => ({
   // Certificat Actions
   addCertificat: (certificat) => set((state) => {
     const newState = { ...state, certificats: [certificat, ...state.certificats] };
+    storage.saveData(newState);
+    return newState;
+  }),
+
+  toggleTheme: () => set((state) => {
+    const newTheme = state.theme === 'light' ? 'dark' : 'light';
+    const newState = { ...state, theme: newTheme };
     storage.saveData(newState);
     return newState;
   }),

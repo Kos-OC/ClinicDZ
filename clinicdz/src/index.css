@@ -4,8 +4,33 @@
 
 @layer base {
   body {
-    @apply antialiased;
+    @apply antialiased transition-colors duration-200;
   }
+}
+
+/* Dark Mode Overrides */
+.dark body {
+  @apply bg-slate-950 text-slate-100;
+}
+
+.dark .bg-white {
+  @apply bg-slate-800 border-slate-700;
+}
+
+.dark .text-slate-900 {
+  @apply text-slate-100;
+}
+
+.dark .text-slate-500 {
+  @apply text-slate-400;
+}
+
+.dark .bg-slate-50 {
+  @apply bg-slate-900;
+}
+
+.dark .border-slate-200 {
+  @apply border-slate-700;
 }
 
 /* Custom styles for printing */
@@ -17,6 +42,7 @@
 
   body {
     background: white !important;
+    color: black !important;
     font-family: 'Times New Roman', Times, serif;
   }
 
@@ -30,6 +56,7 @@
     margin: 0;
     padding: 0;
     background: white !important;
+    color: black !important;
   }
 
   /* Force colors and backgrounds in print */
@@ -45,9 +72,9 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-100;
+  @apply bg-slate-100 dark:bg-slate-900;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
+  @apply bg-slate-300 dark:bg-slate-700 rounded-full hover:bg-slate-400 transition-colors;
 }

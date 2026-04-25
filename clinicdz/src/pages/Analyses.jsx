@@ -15,6 +15,7 @@ export default function Analyses() {
   
   const [selectedAnalyses, setSelectedAnalyses] = useState([]);
   const [isUrgent, setIsUrgent] = useState(false);
+  const [notes, setNotes] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [ageOverride, setAgeOverride] = useState('');
 
@@ -130,6 +131,16 @@ export default function Analyses() {
               Urgent
             </label>
           </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Observations</label>
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              rows={2}
+              className="w-full p-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Notes additionnelles..."
+            />
+          </div>
         </div>
 
         <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
@@ -216,6 +227,13 @@ export default function Analyses() {
             </div>
           ))}
         </div>
+
+        {notes && (
+          <div className="mt-8 pt-4 border-t border-slate-100 italic whitespace-pre-wrap">
+            <h4 className="font-bold mb-1">Observations:</h4>
+            {notes}
+          </div>
+        )}
 
         <div className="mt-20 flex justify-between items-end border-t-2 border-slate-900 pt-8">
           <div className="text-xs text-slate-500 max-w-[60%] italic">

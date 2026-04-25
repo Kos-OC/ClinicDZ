@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { useStore } from './store/useStore';
 import Certificats from './pages/Certificats';
 import Statistiques from './pages/Statistiques';
 import Patients from './pages/Patients';
@@ -12,14 +13,15 @@ import Parametres from './pages/Parametres';
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const { theme, toggleTheme } = useStore();
   const links = [
     { to: '/accueil', label: 'Accueil', icon: '📊' },
-    { to: '/patients', label: 'Patients' },
-    { to: '/medicaments', label: 'Médicaments' },
-    { to: '/ordonnance', label: 'Ordonnance' },
-    { to: '/analyses', label: 'Analyses' },
+    { to: '/patients', label: 'Patients', icon: '👥' },
+    { to: '/medicaments', label: 'Médicaments', icon: '💊' },
+    { to: '/ordonnance', label: 'Ordonnance', icon: '📝' },
+    { to: '/analyses', label: 'Analyses', icon: '🧪' },
     { to: '/certificats', label: 'Certificats', icon: '📄' },
-    { to: '/parametres', label: 'Paramètres' },
+    { to: '/parametres', label: 'Paramètres', icon: '⚙️' },
   ];
 
   return (
@@ -56,6 +58,12 @@ const Sidebar = () => {
           </NavLink>
         ))}
       </nav>
+      <button 
+        onClick={toggleTheme}
+        className="m-4 p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors text-center"
+      >
+        {theme === 'light' ? '🌙' : '☀️'}
+      </button>
       <div className={`border-t border-slate-800 text-slate-500 text-xs text-center ${collapsed ? 'p-2' : 'p-4'}`}>
         {collapsed ? 'v1' : 'ClinicDZ v1.0.0'}
       </div>
@@ -64,6 +72,12 @@ const Sidebar = () => {
 };
 
 function App() {
+  const { theme } = useStore();
+
+  useEffect(() => {
+    document.documentElement.className = theme;
+  }, [theme]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
@@ -77,7 +91,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="flex min-h-screen bg-gray-50 text-slate-900 font-sans">
+      <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-slate-950 text-slate-100' : 'bg-gray-50 text-slate-900'} font-sans`}>
         <Sidebar />
         <main className="flex-1 h-screen overflow-auto p-8">
           <div className="max-w-6xl mx-auto">
@@ -95,6 +109,7 @@ function App() {
           </div>
         </main>
       </div>
+//...
       <Toaster 
         position="bottom-right"
         toastOptions={{
