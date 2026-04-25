@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import Certificats from './pages/Certificats';
 import Statistiques from './pages/Statistiques';
@@ -11,6 +11,7 @@ import Analyses from './pages/Analyses';
 import Parametres from './pages/Parametres';
 
 const Sidebar = () => {
+  const [collapsed, setCollapsed] = useState(false);
   const links = [
     { to: '/accueil', label: 'Accueil', icon: '📊' },
     { to: '/patients', label: 'Patients' },
@@ -22,29 +23,41 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="w-64 bg-slate-900 text-white min-h-screen flex flex-col shrink-0">
-      <div className="p-6 text-2xl font-bold border-b border-slate-800">
-        ClinicDZ
+    <div className={`bg-slate-900 text-white min-h-screen flex flex-col shrink-0 transition-all duration-300 ${collapsed ? 'w-16' : 'w-64'}`}>
+      <div className={`flex items-center border-b border-slate-800 ${collapsed ? 'justify-center p-4' : 'p-6'}`}>
+        {!collapsed && <div className="text-2xl font-bold">ClinicDZ</div>}
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className={`text-slate-400 hover:text-white transition-colors text-xl ${collapsed ? 'p-2' : 'ml-auto'}`}
+          title={collapsed ? 'Développer' : 'Réduire'}
+        >
+          {collapsed ? '→' : '←'}
+        </button>
       </div>
-      <nav className="flex-1 p-4 space-y-2 mt-4">
+      <nav className="flex-1 p-2 space-y-1 mt-2">
         {links.map((link) => (
           <NavLink
             key={link.to}
             to={link.to}
+            title={collapsed ? link.label : undefined}
             className={({ isActive }) =>
-              `block p-3 rounded-lg transition-all ${
-                isActive 
-                  ? 'bg-blue-600 text-white shadow-lg' 
+              `flex items-center rounded-lg transition-all ${
+                collapsed
+                  ? 'justify-center p-3'
+                  : 'p-3'
+              } ${isActive
+                  ? 'bg-blue-600 text-white shadow-lg'
                   : 'text-slate-400 hover:bg-slate-800 hover:text-white'
               }`
             }
           >
-            {link.label}
+            {link.icon && <span className="text-lg">{link.icon}</span>}
+            {!collapsed && <span className={link.icon ? 'ml-3' : ''}>{link.label}</span>}
           </NavLink>
         ))}
       </nav>
-      <div className="p-4 border-t border-slate-800 text-slate-500 text-xs text-center">
-        ClinicDZ v1.0.0
+      <div className={`border-t border-slate-800 text-slate-500 text-xs text-center ${collapsed ? 'p-2' : 'p-4'}`}>
+        {collapsed ? 'v1' : 'ClinicDZ v1.0.0'}
       </div>
     </div>
   );
