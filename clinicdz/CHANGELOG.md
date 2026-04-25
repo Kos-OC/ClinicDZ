@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2026-04-25
 
 ### Added
+- **Statistiques Page**: Dashboard with counts (patients, ordonnances, analyses, drugs), this-month prescriptions, monthly bar chart (last 6 months), age group distribution, top prescribed drugs chart.
+
 - Project scaffolding using Vite and React.
 - Initial dependencies: `react-router-dom`, `zustand`, `uuid`, `@headlessui/react`, `react-hook-form`, `zod`, `react-hot-toast`.
 - Tailwind CSS and Vitest configuration.

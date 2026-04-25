@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
+import Statistiques from './pages/Statistiques';
 import Patients from './pages/Patients';
 import PatientDetail from './pages/PatientDetail';
 import Medicaments from './pages/Medicaments';
@@ -10,6 +11,7 @@ import Parametres from './pages/Parametres';
 
 const Sidebar = () => {
   const links = [
+    { to: '/accueil', label: 'Accueil', icon: '📊' },
     { to: '/patients', label: 'Patients' },
     { to: '/medicaments', label: 'Médicaments' },
     { to: '/ordonnance', label: 'Ordonnance' },
@@ -65,7 +67,8 @@ function App() {
         <main className="flex-1 h-screen overflow-auto p-8">
           <div className="max-w-6xl mx-auto">
             <Routes>
-              <Route path="/" element={<Navigate to="/patients" replace />} />
+              <Route path="/" element={<Navigate to="/accueil" replace />} />
+              <Route path="/accueil" element={<Statistiques />} />
               <Route path="/patients" element={<Patients />} />
               <Route path="/patients/:id" element={<PatientDetail />} />
               <Route path="/medicaments" element={<Medicaments />} />
