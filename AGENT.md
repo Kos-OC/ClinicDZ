@@ -99,16 +99,22 @@ Form (React Hook Form + Zod). Fields: Prénom, Nom, Spécialité, Adresse, Tél�
 "Enregistrer" button. On save, trigger toast.
 Add UI for "Exporter les données (JSON)" and "Importer les données (JSON)" using the utils from Step 3. Import must require confirmation.
 2. Patients.jsx
+- Search input (filters by nom or prénom).
+- "Ajouter un patient" button -> Headless UI Dialog modal with RHF+Zod form.
+- **Form Constraints:** 
+    - Forced Uppercase for Nom and Prénom (visual + data).
+    - Date of Birth: Text input with placeholder "JJ/MM/AAAA". 
+    - **Validation:** Zod regex to ensure `DD/MM/YYYY` or `DD-MM-YYYY` format.
+    - Optional toggle between providing Age or Date of Birth.
+- Table of patients. If no patients, show EmptyState.
+- Click patient -> /patients/:id. Delete -> window.confirm().
 
-Search input (filters by nom or prénom).
-"Ajouter un patient" button -> Headless UI Dialog modal with RHF+Zod form.
-Table of patients. If no patients, show EmptyState.
-Click patient -> /patients/:id. Delete -> window.confirm().
 3. PatientDetail.jsx
-
-Display patient info (use calculations.js for age).
-List prescription history (filtered by patientId). If empty, show EmptyState.
-Button to create new Ordonnance/Analyse.
+- Display patient info (use calculations.js for age). 
+- **Display:** Show formatted birth date (DD/MM/YYYY) and uppercase names.
+- List prescription history (filtered by patientId). If empty, show EmptyState.
+- **History Actions:** Ability to view/reprint previous prescriptions and analyses.
+- Button to create new Ordonnance/Analyse.
 4. Medicaments.jsx
 
 Search bar, Table, Add/Edit/Delete. Use RHF+Zod for add/edit. Empty state if empty.

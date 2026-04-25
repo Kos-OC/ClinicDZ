@@ -84,6 +84,11 @@ export const useStore = create((set) => ({
     storage.saveData(newState);
     return newState;
   }),
+  addAnalyse: (analyse) => set((state) => {
+    const newState = { ...state, prescriptions: [...state.prescriptions, { ...analyse, type: 'analyse' }] };
+    storage.saveData(newState);
+    return newState;
+  }),
 
   // Certificat Actions
   addCertificat: (certificat) => set((state) => {

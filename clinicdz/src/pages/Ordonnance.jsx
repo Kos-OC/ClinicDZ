@@ -95,6 +95,7 @@ export default function Ordonnance() {
       date,
       items,
       notes,
+      type: 'ordonnance',
     };
 
     addPrescription(prescription);

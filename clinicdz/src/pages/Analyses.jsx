@@ -8,7 +8,7 @@ import { calculateAge } from '../utils/calculations';
 export default function Analyses() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { patients, analyses, doctor } = useStore();
+  const { patients, analyses, doctor, addAnalyse } = useStore();
 
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [patientQuery, setPatientQuery] = useState('');
@@ -61,6 +61,16 @@ export default function Analyses() {
       toast.error('Veuillez sélectionner au moins une analyse');
       return;
     }
+    
+    addAnalyse({
+      patientId: selectedPatient.id,
+      patientName: `${selectedPatient.nom} ${selectedPatient.prenom}`,
+      date,
+      analyses: selectedAnalyses,
+      isUrgent
+    });
+    toast.success('Demande d\'analyse enregistrée');
+
     setTimeout(() => window.print(), 500);
   };
 
