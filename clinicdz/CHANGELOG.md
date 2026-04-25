@@ -5,7 +5,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2026-04-25
 
 ### Added
-- **Statistiques Page**: Dashboard with counts (patients, ordonnances, analyses, drugs), this-month prescriptions, monthly bar chart (last 6 months), age group distribution, top prescribed drugs chart.
+- **Statistiques Page** (Accueil): Dashboard with counts, this-month prescriptions, monthly bar chart, age distribution, top prescribed drugs.
+- **Certificats Médicaux Feature**: 6 certificate templates, three-column layout (template list / form / live preview), RHF+Zod validation, auto-resolved placeholders from store, print with saved copies in patient history.
 
 - Project scaffolding using Vite and React.
 - Initial dependencies: `react-router-dom`, `zustand`, `uuid`, `@headlessui/react`, `react-hook-form`, `zod`, `react-hot-toast`.

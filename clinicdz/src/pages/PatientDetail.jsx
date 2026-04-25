@@ -7,10 +7,11 @@ import EmptyState from '../components/EmptyState';
 export default function PatientDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { patients, prescriptions } = useStore();
+  const { patients, prescriptions, certificats } = useStore();
 
   const patient = patients.find((p) => p.id === id);
   const patientPrescriptions = prescriptions.filter((p) => p.patientId === id);
+  const patientCertificats = certificats.filter((c) => c.patientId === id);
 
   if (!patient) {
     return (
@@ -46,6 +47,12 @@ export default function PatientDetail() {
           </div>
         </div>
         <div className="flex gap-3">
+          <Link
+            to={`/certificats?patientId=${patient.id}`}
+            className="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 shadow-sm"
+          >
+            Nouveau Certificat
+          </Link>
           <Link
             to={`/ordonnance?patientId=${patient.id}`}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 shadow-sm"
@@ -85,25 +92,32 @@ export default function PatientDetail() {
             <div className="p-4 border-b border-slate-200 bg-slate-50 font-bold text-slate-900">
               Historique des Ordonnances
             </div>
-            {patientPrescriptions.length > 0 ? (
+            {patientCertificats.length > 0 ? (
               <table className="w-full text-left">
                 <thead className="bg-slate-50 text-slate-500 text-xs uppercase font-semibold">
                   <tr>
+                    <th className="px-6 py-3">Titre</th>
                     <th className="px-6 py-3">Date</th>
-                    <th className="px-6 py-3">Médicaments</th>
                     <th className="px-6 py-3 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200">
-                  {patientPrescriptions.map((presc) => (
-                    <tr key={presc.id} className="hover:bg-slate-50">
-                      <td className="px-6 py-4 text-slate-900">{presc.date}</td>
-                      <td className="px-6 py-4 text-slate-600">
-                        {presc.items.length} médicament(s)
-                      </td>
+                  {patientCertificats.map((cert) => (
+                    <tr key={cert.id} className="hover:bg-slate-50">
+                      <td className="px-6 py-4 text-slate-900">{cert.titre}</td>
+                      <td className="px-6 py-4 text-slate-600">{cert.date}</td>
                       <td className="px-6 py-4 text-right">
-                        <button className="text-blue-600 hover:text-blue-800 font-medium text-sm">
-                          Détails
+                        <button
+                          onClick={() => {
+                            const printArea = document.getElementById('print-area');
+                            if (printArea) {
+                              printArea.innerHTML = cert.contenuFinal;
+                              window.print();
+                            }
+                          }}
+                          className="text-green-600 hover:text-green-800 font-medium text-sm"
+                        >
+                          Réimprimer
                         </button>
                       </td>
                     </tr>
@@ -112,8 +126,8 @@ export default function PatientDetail() {
               </table>
             ) : (
               <EmptyState
-                title="Aucune ordonnance"
-                description="Ce patient n'a pas encore d'historique médical."
+                title="Aucun certificat"
+                description="Ce patient n'a pas encore de certificat médical."
               />
             )}
           </div>

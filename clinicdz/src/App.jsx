@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
+import Certificats from './pages/Certificats';
 import Statistiques from './pages/Statistiques';
 import Patients from './pages/Patients';
 import PatientDetail from './pages/PatientDetail';
@@ -16,6 +17,7 @@ const Sidebar = () => {
     { to: '/medicaments', label: 'Médicaments' },
     { to: '/ordonnance', label: 'Ordonnance' },
     { to: '/analyses', label: 'Analyses' },
+    { to: '/certificats', label: 'Certificats', icon: '📄' },
     { to: '/parametres', label: 'Paramètres' },
   ];
 
@@ -74,6 +76,7 @@ function App() {
               <Route path="/medicaments" element={<Medicaments />} />
               <Route path="/ordonnance" element={<Ordonnance />} />
               <Route path="/analyses" element={<Analyses />} />
+              <Route path="/certificats" element={<Certificats />} />
               <Route path="/parametres" element={<Parametres />} />
             </Routes>
           </div>

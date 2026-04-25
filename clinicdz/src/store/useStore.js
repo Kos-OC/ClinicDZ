@@ -19,6 +19,7 @@ const initialState = {
   drugs: savedState?.drugs || defaultDrugs,
   prescriptions: savedState?.prescriptions || [],
   analyses: savedState?.analyses || defaultAnalyses,
+  certificats: savedState?.certificats || [],
 };
 
 export const useStore = create((set) => ({
@@ -84,6 +85,13 @@ export const useStore = create((set) => ({
     return newState;
   }),
 
+  // Certificat Actions
+  addCertificat: (certificat) => set((state) => {
+    const newState = { ...state, certificats: [certificat, ...state.certificats] };
+    storage.saveData(newState);
+    return newState;
+  }),
+
   // General Actions
   resetStore: () => {
     const newState = {
@@ -92,6 +100,7 @@ export const useStore = create((set) => ({
       drugs: defaultDrugs,
       prescriptions: [],
       analyses: defaultAnalyses,
+      certificats: [],
     };
     storage.saveData(newState);
     set(newState);
