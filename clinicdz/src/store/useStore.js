@@ -21,6 +21,7 @@ const initialState = {
   prescriptions: savedState?.prescriptions || [],
   analyses: savedState?.analyses || defaultAnalyses,
   certificats: savedState?.certificats || [],
+  consultations: savedState?.consultations || [],
 };
 
 export const useStore = create((set) => ({
@@ -94,6 +95,13 @@ export const useStore = create((set) => ({
   // Certificat Actions
   addCertificat: (certificat) => set((state) => {
     const newState = { ...state, certificats: [certificat, ...state.certificats] };
+    storage.saveData(newState);
+    return newState;
+  }),
+
+  // Consultation Actions
+  addConsultation: (consultation) => set((state) => {
+    const newState = { ...state, consultations: [consultation, ...state.consultations] };
     storage.saveData(newState);
     return newState;
   }),

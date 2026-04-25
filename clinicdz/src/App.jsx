@@ -10,6 +10,7 @@ import Medicaments from './pages/Medicaments';
 import Ordonnance from './pages/Ordonnance';
 import Analyses from './pages/Analyses';
 import Parametres from './pages/Parametres';
+import Consultation from './pages/Consultation';
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -104,6 +105,7 @@ function App() {
               <Route path="/ordonnance" element={<Ordonnance />} />
               <Route path="/analyses" element={<Analyses />} />
               <Route path="/certificats" element={<Certificats />} />
+              <Route path="/consultation" element={<Consultation />} />
               <Route path="/parametres" element={<Parametres />} />
             </Routes>
           </div>

@@ -38,6 +38,7 @@ export default function PatientDetail() {
   const patientOrdonnances = prescriptions.filter((p) => p.patientId === id && p.type === 'ordonnance');
   const patientAnalyses = prescriptions.filter((p) => p.patientId === id && p.type === 'analyse');
   const patientCertificats = certificats.filter((c) => c.patientId === id);
+  const patientConsultations = useStore((state) => state.consultations).filter((c) => c.patientId === id);
 
   if (!patient) {
     return (
@@ -68,7 +69,8 @@ export default function PatientDetail() {
                 <td className="px-6 py-4 text-slate-600">{item.date}</td>
                 <td className="px-6 py-4 text-slate-900">
                   {type === 'ordonnance' ? `${item.items?.length} médicaments` : 
-                   type === 'analyse' ? `${item.analyses?.length} analyses` : item.titre}
+                   type === 'analyse' ? `${item.analyses?.length} analyses` : 
+                   type === 'consultation' ? item.motif : item.titre}
                 </td>
                 <td className="px-6 py-4 text-right">
                   <button className="text-blue-600 hover:text-blue-800 font-medium text-sm">Voir</button>
@@ -98,6 +100,7 @@ export default function PatientDetail() {
           <Link to={`/certificats?patientId=${patient.id}`} className="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700">Certificat</Link>
           <Link to={`/ordonnance?patientId=${patient.id}`} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700">Ordonnance</Link>
           <Link to={`/analyses?patientId=${patient.id}`} className="bg-slate-800 text-white px-4 py-2 rounded-lg font-medium hover:bg-slate-900">Analyse</Link>
+          <Link to={`/consultation?patientId=${patient.id}`} className="bg-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-700">Consultation</Link>
         </div>
       </div>
 
@@ -131,6 +134,7 @@ export default function PatientDetail() {
           <HistoryTable title="Historique des Ordonnances" data={patientOrdonnances} type="ordonnance" />
           <HistoryTable title="Historique des Analyses" data={patientAnalyses} type="analyse" />
           <HistoryTable title="Historique des Certificats" data={patientCertificats} type="certificat" />
+          <HistoryTable title="Historique des Consultations" data={patientConsultations} type="consultation" />
         </div>
       </div>
     </div>
