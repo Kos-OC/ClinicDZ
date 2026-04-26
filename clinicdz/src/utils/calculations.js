@@ -43,3 +43,16 @@ export const formatFrenchDate = (dateStr) => {
   }
   return dateStr;
 };
+
+// Calculate BMI from weight (kg) and height (cm)
+// Returns null if either value is missing or zero
+export function calculateBMI(poids, taille) {
+  if (!poids || !taille || taille === 0) return null;
+  return Math.round((poids / Math.pow(taille / 100, 2)) * 10) / 10;
+}
+
+// Calculate remaining balance
+// Returns montant - paiement, floored at 0 for display but stored as-is
+export function calculateReste(montant, paiement) {
+  return (Number(montant) || 0) - (Number(paiement) || 0);
+}

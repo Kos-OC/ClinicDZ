@@ -8,10 +8,10 @@ export const importFromJson = (file) => {
         const json = JSON.parse(e.target.result);
         
         // Basic validation of required fields
-        const requiredFields = ['doctor', 'patients', 'drugs', 'prescriptions', 'analyses'];
+        const requiredFields = ['doctor', 'patients', 'drugs', 'prescriptions', 'analyses', 'consultations'];
         const hasAllFields = requiredFields.every(field => Object.prototype.hasOwnProperty.call(json, field));
 
-        if (hasAllFields && Array.isArray(json.patients) && Array.isArray(json.drugs)) {
+        if (hasAllFields && Array.isArray(json.patients) && Array.isArray(json.drugs) && Array.isArray(json.consultations)) {
           useStore.getState().importState(json);
           resolve(true);
         } else {

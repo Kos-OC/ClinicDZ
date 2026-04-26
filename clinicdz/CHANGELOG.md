@@ -2,7 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.0] - 2026-04-25
+## [1.1.0] - 2026-04-26
+
+### Added
+- Phase 2 Integration: Consultations module data layer.
+- Added 58 Algerian wilayas data.
+- Extended store with consultation CRUD actions.
+- Added BMI and Reste calculation utils.
+- Added tests for consultation store and calculation utils.
+- Added shared components: `PatientAvatar` and `TabPanel`.
+- Added Consultations List Page (`Consultations.jsx`).
+- Added Consultation Detail Page (`ConsultationDetail.jsx`) with auto-calculation logic and unit tests.
+- Added action modals: Bilan, ArretTravail, Certificat, LettreOrientation with print support.
+- Upgraded Analyses page to two-panel click-to-add UX.
+- Implemented routing and sidebar integration for the new Consultations module.
 
 ### Added
 - **Sidebar collapsible**: Toggle button shrinks sidebar to icon-only mode (w-64 → w-16) with smooth transition.

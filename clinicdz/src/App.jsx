@@ -10,21 +10,13 @@ import Medicaments from './pages/Medicaments';
 import Ordonnance from './pages/Ordonnance';
 import Analyses from './pages/Analyses';
 import Parametres from './pages/Parametres';
-import Consultation from './pages/Consultation';
+import Consultations from './pages/Consultations';
+import ConsultationDetail from './pages/ConsultationDetail';
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const { theme, toggleTheme } = useStore();
-  const links = [
-    { to: '/accueil', label: 'Accueil', icon: '📊' },
-    { to: '/patients', label: 'Patients', icon: '👥' },
-    { to: '/medicaments', label: 'Médicaments', icon: '💊' },
-    { to: '/ordonnance', label: 'Ordonnance', icon: '📝' },
-    { to: '/analyses', label: 'Analyses', icon: '🧪' },
-    { to: '/certificats', label: 'Certificats', icon: '📄' },
-    { to: '/parametres', label: 'Paramètres', icon: '⚙️' },
-  ];
-
+  
   return (
     <div className={`bg-slate-900 text-white min-h-screen flex flex-col shrink-0 transition-all duration-300 ${collapsed ? 'w-16' : 'w-64'}`}>
       <div className={`flex items-center border-b border-slate-800 ${collapsed ? 'justify-center p-4' : 'p-6'}`}>
@@ -32,63 +24,31 @@ const Sidebar = () => {
         <button
           onClick={() => setCollapsed(!collapsed)}
           className={`text-slate-400 hover:text-white transition-colors text-xl ${collapsed ? 'p-2' : 'ml-auto'}`}
-          title={collapsed ? 'Développer' : 'Réduire'}
         >
           {collapsed ? '→' : '←'}
         </button>
       </div>
       <nav className="flex-1 p-2 space-y-1 mt-2">
-        {links.map((link) => (
-          <NavLink
-            key={link.to}
-            to={link.to}
-            title={collapsed ? link.label : undefined}
-            className={({ isActive }) =>
-              `flex items-center rounded-lg transition-all ${
-                collapsed
-                  ? 'justify-center p-3'
-                  : 'p-3'
-              } ${isActive
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'
-              }`
-            }
-          >
-            {link.icon && <span className="text-lg">{link.icon}</span>}
-            {!collapsed && <span className={link.icon ? 'ml-3' : ''}>{link.label}</span>}
-          </NavLink>
-        ))}
+        <NavLink to="/accueil" className={({isActive}) => `flex items-center p-3 rounded-lg ${isActive ? 'bg-blue-600' : 'text-slate-400'}`}>📊 {!collapsed && <span className="ml-3">Accueil</span>}</NavLink>
+        <NavLink to="/patients" className={({isActive}) => `flex items-center p-3 rounded-lg ${isActive ? 'bg-blue-600' : 'text-slate-400'}`}>👥 {!collapsed && <span className="ml-3">Patients</span>}</NavLink>
+        
+        {!collapsed && <div className="text-xs font-bold text-slate-500 uppercase px-3 mt-4 mb-2">Consultations</div>}
+        <NavLink to="/consultations" className={({isActive}) => `flex items-center p-3 rounded-lg ${isActive ? 'bg-blue-600' : 'text-slate-400'}`}>📅 {!collapsed && <span className="ml-3">Liste</span>}</NavLink>
+        <NavLink to="/consultations/new" className={({isActive}) => `flex items-center p-3 rounded-lg ${isActive ? 'bg-blue-600' : 'text-slate-400'}`}>➕ {!collapsed && <span className="ml-3">Ajouter</span>}</NavLink>
+
+        <NavLink to="/ordonnance" className={({isActive}) => `flex items-center p-3 rounded-lg ${isActive ? 'bg-blue-600' : 'text-slate-400'}`}>📝 {!collapsed && <span className="ml-3">Ordonnance</span>}</NavLink>
+        <NavLink to="/analyses" className={({isActive}) => `flex items-center p-3 rounded-lg ${isActive ? 'bg-blue-600' : 'text-slate-400'}`}>🧪 {!collapsed && <span className="ml-3">Analyses</span>}</NavLink>
+        <NavLink to="/medicaments" className={({isActive}) => `flex items-center p-3 rounded-lg ${isActive ? 'bg-blue-600' : 'text-slate-400'}`}>💊 {!collapsed && <span className="ml-3">Médicaments</span>}</NavLink>
+        <NavLink to="/parametres" className={({isActive}) => `flex items-center p-3 rounded-lg ${isActive ? 'bg-blue-600' : 'text-slate-400'}`}>⚙️ {!collapsed && <span className="ml-3">Paramètres</span>}</NavLink>
       </nav>
-      <button 
-        onClick={toggleTheme}
-        className="m-4 p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors text-center"
-      >
-        {theme === 'light' ? '🌙' : '☀️'}
-      </button>
-      <div className={`border-t border-slate-800 text-slate-500 text-xs text-center ${collapsed ? 'p-2' : 'p-4'}`}>
-        {collapsed ? 'v1' : 'ClinicDZ v1.0.0'}
-      </div>
+      <button onClick={toggleTheme} className="m-4 p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors text-center">{theme === 'light' ? '🌙' : '☀️'}</button>
     </div>
   );
 };
 
 function App() {
   const { theme } = useStore();
-
-  useEffect(() => {
-    document.documentElement.className = theme;
-  }, [theme]);
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
-        e.preventDefault();
-        window.print();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  useEffect(() => { document.documentElement.className = theme; }, [theme]);
 
   return (
     <BrowserRouter>
@@ -101,24 +61,19 @@ function App() {
               <Route path="/accueil" element={<Statistiques />} />
               <Route path="/patients" element={<Patients />} />
               <Route path="/patients/:id" element={<PatientDetail />} />
-              <Route path="/medicaments" element={<Medicaments />} />
+              <Route path="/consultations" element={<Consultations />} />
+              <Route path="/consultations/new" element={<ConsultationDetail />} />
+              <Route path="/consultations/:id" element={<ConsultationDetail />} />
               <Route path="/ordonnance" element={<Ordonnance />} />
               <Route path="/analyses" element={<Analyses />} />
-              <Route path="/certificats" element={<Certificats />} />
-              <Route path="/consultation" element={<Consultation />} />
+              <Route path="/medicaments" element={<Medicaments />} />
               <Route path="/parametres" element={<Parametres />} />
+              <Route path="/certificats" element={<Certificats />} />
             </Routes>
           </div>
         </main>
       </div>
-//...
-      <Toaster 
-        position="bottom-right"
-        toastOptions={{
-          className: 'bg-white text-slate-900 shadow-xl border border-slate-100',
-          duration: 3000,
-        }} 
-      />
+      <Toaster position="bottom-right" />
     </BrowserRouter>
   );
 }

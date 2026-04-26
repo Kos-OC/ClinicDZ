@@ -21,6 +21,7 @@ describe('PatientDetail Page', () => {
       ],
       prescriptions: [],
       certificats: [],
+      consultations: [],
       updatePatient: vi.fn(),
     });
   });

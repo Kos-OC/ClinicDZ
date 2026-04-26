@@ -105,6 +105,22 @@ export const useStore = create((set) => ({
     storage.saveData(newState);
     return newState;
   }),
+  updateConsultation: (id, data) => set((state) => {
+    const newState = {
+      ...state,
+      consultations: state.consultations.map(c => c.id === id ? { ...c, ...data } : c)
+    };
+    storage.saveData(newState);
+    return newState;
+  }),
+  deleteConsultation: (id) => set((state) => {
+    const newState = {
+      ...state,
+      consultations: state.consultations.filter(c => c.id !== id)
+    };
+    storage.saveData(newState);
+    return newState;
+  }),
 
   toggleTheme: () => set((state) => {
     const newTheme = state.theme === 'light' ? 'dark' : 'light';
@@ -122,6 +138,7 @@ export const useStore = create((set) => ({
       prescriptions: [],
       analyses: defaultAnalyses,
       certificats: [],
+      consultations: [],
     };
     storage.saveData(newState);
     set(newState);

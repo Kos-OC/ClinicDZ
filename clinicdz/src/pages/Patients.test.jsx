@@ -7,8 +7,8 @@ import { useStore } from '../store/useStore';
 vi.mock('../store/useStore');
 
 const mockPatients = [
-  { id: '1', nom: 'Ziri', prenom: 'Lamine', dateNaissance: '1990-01-01', genre: 'Masculin' },
-  { id: '2', nom: 'Brahimi', prenom: 'Yacine', dateNaissance: '1995-05-05', genre: 'Masculin' },
+  { id: '1', nom: 'Ziri', prenom: 'Lamine', dateNaissance: '1990-01-01', genre: 'Homme', wilaya: 'Alger' },
+  { id: '2', nom: 'Brahimi', prenom: 'Yacine', dateNaissance: '1995-05-05', genre: 'Homme', wilaya: 'Oran' },
 ];
 
 describe('Patients Page', () => {
@@ -17,6 +17,7 @@ describe('Patients Page', () => {
       patients: mockPatients,
       addPatient: vi.fn(),
       deletePatient: vi.fn(),
+      updatePatient: vi.fn(),
     });
   });
 
@@ -30,7 +31,7 @@ describe('Patients Page', () => {
     expect(screen.getByText(/Brahimi/)).toBeInTheDocument();
   });
 
-  it('filters patients by search term', () => {
+  it('filters patients by name search', () => {
     render(
       <BrowserRouter>
         <Patients />
@@ -42,5 +43,22 @@ describe('Patients Page', () => {
     
     expect(screen.getByText(/Ziri/)).toBeInTheDocument();
     expect(screen.queryByText(/Brahimi/)).not.toBeInTheDocument();
+  });
+
+  it('filters patients by wilaya', () => {
+    render(
+      <BrowserRouter>
+        <Patients />
+      </BrowserRouter>
+    );
+    
+    const wilayaRadio = screen.getByLabelText(/Wilaya/);
+    fireEvent.click(wilayaRadio);
+    
+    const searchInput = screen.getByPlaceholderText(/Rechercher/);
+    fireEvent.change(searchInput, { target: { value: 'Oran' } });
+    
+    expect(screen.getByText(/Brahimi/)).toBeInTheDocument();
+    expect(screen.queryByText(/Ziri/)).not.toBeInTheDocument();
   });
 });

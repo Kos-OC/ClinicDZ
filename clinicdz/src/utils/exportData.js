@@ -10,6 +10,7 @@ export const exportToJson = () => {
     drugs: state.drugs,
     prescriptions: state.prescriptions,
     analyses: state.analyses,
+    consultations: state.consultations,
   };
 
   const dataStr = JSON.stringify(dataToExport, null, 2);
