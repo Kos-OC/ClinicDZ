@@ -24,6 +24,7 @@ const Sidebar = () => {
         <button
           onClick={() => setCollapsed(!collapsed)}
           className={`text-slate-400 hover:text-white transition-colors text-xl ${collapsed ? 'p-2' : 'ml-auto'}`}
+          aria-label={collapsed ? 'Développer la barre latérale' : 'Réduire la barre latérale'}
         >
           {collapsed ? '→' : '←'}
         </button>
@@ -38,10 +39,11 @@ const Sidebar = () => {
 
         <NavLink to="/ordonnance" className={({isActive}) => `flex items-center p-3 rounded-lg ${isActive ? 'bg-blue-600' : 'text-slate-400'}`}>📝 {!collapsed && <span className="ml-3">Ordonnance</span>}</NavLink>
         <NavLink to="/analyses" className={({isActive}) => `flex items-center p-3 rounded-lg ${isActive ? 'bg-blue-600' : 'text-slate-400'}`}>🧪 {!collapsed && <span className="ml-3">Analyses</span>}</NavLink>
+        <NavLink to="/certificats" className={({isActive}) => `flex items-center p-3 rounded-lg ${isActive ? 'bg-blue-600' : 'text-slate-400'}`}>📋 {!collapsed && <span className="ml-3">Certificats</span>}</NavLink>
         <NavLink to="/medicaments" className={({isActive}) => `flex items-center p-3 rounded-lg ${isActive ? 'bg-blue-600' : 'text-slate-400'}`}>💊 {!collapsed && <span className="ml-3">Médicaments</span>}</NavLink>
         <NavLink to="/parametres" className={({isActive}) => `flex items-center p-3 rounded-lg ${isActive ? 'bg-blue-600' : 'text-slate-400'}`}>⚙️ {!collapsed && <span className="ml-3">Paramètres</span>}</NavLink>
       </nav>
-      <button onClick={toggleTheme} className="m-4 p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors text-center">{theme === 'light' ? '🌙' : '☀️'}</button>
+      <button onClick={toggleTheme} className="m-4 p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors text-center" aria-label={theme === 'light' ? 'Passer au thème sombre' : 'Passer au thème clair'}>{theme === 'light' ? '🌙' : '☀️'}</button>
     </div>
   );
 };

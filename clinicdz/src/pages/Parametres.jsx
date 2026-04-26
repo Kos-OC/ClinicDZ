@@ -66,7 +66,7 @@ export default function Parametres() {
               {...register('prenom')}
               className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             />
-            {errors.prenom && <p className="text-red-500 text-xs mt-1">{errors.prenom.message}</p>}
+            {errors.prenom && <p className="text-red-600 text-sm mt-1">{errors.prenom.message}</p>}
           </div>
 
           <div>
@@ -75,7 +75,7 @@ export default function Parametres() {
               {...register('nom')}
               className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             />
-            {errors.nom && <p className="text-red-500 text-xs mt-1">{errors.nom.message}</p>}
+            {errors.nom && <p className="text-red-600 text-sm mt-1">{errors.nom.message}</p>}
           </div>
 
           <div>
@@ -84,7 +84,7 @@ export default function Parametres() {
               {...register('specialite')}
               className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             />
-            {errors.specialite && <p className="text-red-500 text-xs mt-1">{errors.specialite.message}</p>}
+            {errors.specialite && <p className="text-red-600 text-sm mt-1">{errors.specialite.message}</p>}
           </div>
 
           <div>
@@ -93,7 +93,7 @@ export default function Parametres() {
               {...register('telephone')}
               className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             />
-            {errors.telephone && <p className="text-red-500 text-xs mt-1">{errors.telephone.message}</p>}
+            {errors.telephone && <p className="text-red-600 text-sm mt-1">{errors.telephone.message}</p>}
           </div>
 
           <div className="md:col-span-2">
@@ -102,7 +102,7 @@ export default function Parametres() {
               {...register('adresse')}
               className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             />
-            {errors.adresse && <p className="text-red-500 text-xs mt-1">{errors.adresse.message}</p>}
+            {errors.adresse && <p className="text-red-600 text-sm mt-1">{errors.adresse.message}</p>}
           </div>
 
           <div>

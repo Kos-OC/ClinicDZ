@@ -40,6 +40,7 @@ export default function Patients() {
   const [filterType, setFilterType] = useState('nom');
   const [isOpen, setIsOpen] = useState(false);
   const [editingPatient, setEditingPatient] = useState(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
   const {
     register,
@@ -102,11 +103,25 @@ export default function Patients() {
 
   const handleDelete = (e, id) => {
     e.stopPropagation();
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer ce patient ?')) {
+    if (confirmDeleteId === id) {
       deletePatient(id);
       toast.success('Patient supprimé');
+      setConfirmDeleteId(null);
+    } else {
+      setConfirmDeleteId(id);
     }
   };
+
+  React.useEffect(() => {
+    if (!confirmDeleteId) return;
+    const handler = (e) => {
+      if (!e.target.closest('.delete-confirm')) {
+        setConfirmDeleteId(null);
+      }
+    };
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, [confirmDeleteId]);
 
   const PatientForm = () => (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -154,6 +169,7 @@ export default function Patients() {
         </div>
 
         {filteredPatients.length > 0 ? (
+          <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead className="bg-slate-50 text-slate-500 text-xs uppercase font-semibold">
               <tr>
@@ -179,15 +195,24 @@ export default function Patients() {
                   <td className="px-6 py-4">{patient.telephone || '—'}</td>
                   <td className="px-6 py-4">{patient.email || '—'}</td>
                   <td className="px-6 py-4">{patient.wilaya || '—'}</td>
-                  <td className="px-6 py-4 text-right flex justify-end gap-2">
+                  <td className="px-6 py-4 text-right flex justify-end gap-2 items-center">
                     <button onClick={(e) => { e.stopPropagation(); navigate(`/patients/${patient.id}`); }} className="text-blue-600 hover:text-blue-800">Info</button>
                     <button onClick={(e) => handleEdit(e, patient)} className="text-amber-600 hover:text-amber-800">Edit</button>
-                    <button onClick={(e) => handleDelete(e, patient.id)} className="text-red-600 hover:text-red-800">Delete</button>
+                    {confirmDeleteId === patient.id ? (
+                      <span className="flex items-center gap-1">
+                        <span className="text-red-600 text-sm">Confirmer ?</span>
+                        <button onClick={(e) => { e.stopPropagation(); handleDelete(e, patient.id); }} className="text-red-600 hover:text-red-800 font-medium text-sm">Oui</button>
+                        <button onClick={(e) => { e.stopPropagation(); setConfirmDeleteId(null); }} className="text-slate-400 hover:text-slate-600 text-sm">Non</button>
+                      </span>
+                    ) : (
+                      <button onClick={(e) => handleDelete(e, patient.id)} className="text-red-600 hover:text-red-800">Delete</button>
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          </div>
         ) : <EmptyState title="Aucun résultat" description="Essayez une autre recherche." />}
       </div>
 

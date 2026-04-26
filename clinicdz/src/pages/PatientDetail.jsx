@@ -57,6 +57,7 @@ export default function PatientDetail() {
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden mb-6">
       <div className="p-4 border-b border-slate-200 bg-slate-50 font-bold text-slate-900">{title}</div>
       {data.length > 0 ? (
+        <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead className="bg-slate-50 text-slate-500 text-xs uppercase font-semibold">
             <tr>
@@ -81,6 +82,7 @@ export default function PatientDetail() {
             ))}
           </tbody>
         </table>
+        </div>
       ) : (
         <div className="p-8 text-center text-slate-500 italic">Aucun historique trouvé.</div>
       )}

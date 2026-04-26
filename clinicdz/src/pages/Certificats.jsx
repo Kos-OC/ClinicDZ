@@ -216,7 +216,7 @@ export default function Certificats() {
                 </div>
               </Combobox>
               {errors.patientId && (
-                <p className="text-red-500 text-xs mt-1">{errors.patientId.message}</p>
+                <p className="text-red-600 text-sm mt-1">{errors.patientId.message}</p>
               )}
             </div>
 
@@ -229,7 +229,7 @@ export default function Certificats() {
                 className="w-full p-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
               />
               {errors.date && (
-                <p className="text-red-500 text-xs mt-1">{errors.date.message}</p>
+                <p className="text-red-600 text-sm mt-1">{errors.date.message}</p>
               )}
             </div>
 

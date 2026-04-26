@@ -12,6 +12,7 @@ export default function Consultations() {
   const [filterType, setFilterType] = useState('nom');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
   const filteredConsultations = consultations.filter((c) => {
     const patient = patients.find((p) => p.id === c.patientId);
@@ -30,10 +31,24 @@ export default function Consultations() {
   );
 
   const handleDelete = (id) => {
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer cette consultation ?')) {
+    if (confirmDeleteId === id) {
       deleteConsultation(id);
+      setConfirmDeleteId(null);
+    } else {
+      setConfirmDeleteId(id);
     }
   };
+
+  React.useEffect(() => {
+    if (!confirmDeleteId) return;
+    const handler = (e) => {
+      if (!e.target.closest('.delete-confirm')) {
+        setConfirmDeleteId(null);
+      }
+    };
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, [confirmDeleteId]);
 
   return (
     <div className="space-y-6">
@@ -60,6 +75,7 @@ export default function Consultations() {
 
         {paginatedConsultations.length > 0 ? (
           <>
+            <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead className="bg-slate-50 text-slate-500 text-xs uppercase font-semibold">
                 <tr>
@@ -86,15 +102,24 @@ export default function Consultations() {
                       <td className="px-6 py-4">{c.montant} DA</td>
                       <td className="px-6 py-4">{c.paiement} DA</td>
                       <td className={`px-6 py-4 font-bold ${reste > 0 ? 'text-red-600' : reste === 0 ? 'text-green-600' : 'text-slate-900'}`}>{reste} DA</td>
-                      <td className="px-6 py-4 text-right flex justify-end gap-2">
+                      <td className="px-6 py-4 text-right flex justify-end gap-2 items-center">
                         <button onClick={() => navigate(`/consultations/${c.id}`)} className="text-blue-600 hover:text-blue-800">Edit</button>
-                        <button onClick={() => handleDelete(c.id)} className="text-red-600 hover:text-red-800">Delete</button>
+                        {confirmDeleteId === c.id ? (
+                          <span className="flex items-center gap-1">
+                            <span className="text-red-600 text-sm">Confirmer ?</span>
+                            <button onClick={() => handleDelete(c.id)} className="text-red-600 hover:text-red-800 font-medium text-sm">Oui</button>
+                            <button onClick={() => setConfirmDeleteId(null)} className="text-slate-400 hover:text-slate-600 text-sm">Non</button>
+                          </span>
+                        ) : (
+                          <button onClick={() => handleDelete(c.id)} className="text-red-600 hover:text-red-800">Delete</button>
+                        )}
                       </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
+            </div>
             <div className="p-4 border-t border-slate-200 flex justify-between items-center text-sm">
               <select value={rowsPerPage} onChange={(e) => { setRowsPerPage(Number(e.target.value)); setCurrentPage(1); }} className="border rounded p-1">
                 {[10, 25, 50].map(v => <option key={v} value={v}>{v} par page</option>)}

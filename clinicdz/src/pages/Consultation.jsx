@@ -38,7 +38,7 @@ export default function Consultation() {
         <div>
           <label className="block text-sm font-medium text-slate-700">Motif</label>
           <input {...register('motif')} className="w-full p-2 border rounded" />
-          {errors.motif && <p className="text-red-500 text-xs">{errors.motif.message}</p>}
+          {errors.motif && <p className="text-red-600 text-sm mt-1">{errors.motif.message}</p>}
         </div>
         <div>
           <label className="block text-sm font-medium text-slate-700">Observations</label>

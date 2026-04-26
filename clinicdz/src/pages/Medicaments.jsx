@@ -21,6 +21,7 @@ export default function Medicaments() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [editingDrug, setEditingDrug] = useState(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
   const {
     register,
@@ -63,11 +64,25 @@ export default function Medicaments() {
   };
 
   const handleDelete = (id) => {
-    if (window.confirm('Supprimer ce médicament ?')) {
+    if (confirmDeleteId === id) {
       deleteDrug(id);
       toast.success('Médicament supprimé');
+      setConfirmDeleteId(null);
+    } else {
+      setConfirmDeleteId(id);
     }
   };
+
+  React.useEffect(() => {
+    if (!confirmDeleteId) return;
+    const handler = (e) => {
+      if (!e.target.closest('.delete-confirm')) {
+        setConfirmDeleteId(null);
+      }
+    };
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, [confirmDeleteId]);
 
   return (
     <div className="space-y-6">
@@ -96,6 +111,7 @@ export default function Medicaments() {
         </div>
 
         {filteredDrugs.length > 0 ? (
+          <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-50 text-slate-500 text-xs uppercase font-semibold border-b border-slate-200">
               <tr>
@@ -133,6 +149,7 @@ export default function Medicaments() {
               ))}
             </tbody>
           </table>
+          </div>
         ) : (
           <EmptyState title="Aucun médicament" description="Base de données vide." />
         )}
@@ -174,7 +191,7 @@ export default function Medicaments() {
                         {...register('nom')}
                         className="w-full mt-1 p-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
                       />
-                      {errors.nom && <p className="text-red-500 text-xs mt-1">{errors.nom.message}</p>}
+                      {errors.nom && <p className="text-red-600 text-sm mt-1">{errors.nom.message}</p>}
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -185,7 +202,7 @@ export default function Medicaments() {
                           placeholder="ex: 500mg"
                           className="w-full mt-1 p-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
                         />
-                        {errors.dosage && <p className="text-red-500 text-xs mt-1">{errors.dosage.message}</p>}
+                        {errors.dosage && <p className="text-red-600 text-sm mt-1">{errors.dosage.message}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-slate-700">Forme</label>
@@ -194,7 +211,7 @@ export default function Medicaments() {
                           placeholder="ex: Comprimé"
                           className="w-full mt-1 p-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
                         />
-                        {errors.forme && <p className="text-red-500 text-xs mt-1">{errors.forme.message}</p>}
+                        {errors.forme && <p className="text-red-600 text-sm mt-1">{errors.forme.message}</p>}
                       </div>
                     </div>
 
@@ -205,7 +222,7 @@ export default function Medicaments() {
                         placeholder="ex: Antalgique"
                         className="w-full mt-1 p-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
                       />
-                      {errors.categorie && <p className="text-red-500 text-xs mt-1">{errors.categorie.message}</p>}
+                      {errors.categorie && <p className="text-red-600 text-sm mt-1">{errors.categorie.message}</p>}
                     </div>
 
                     <div>

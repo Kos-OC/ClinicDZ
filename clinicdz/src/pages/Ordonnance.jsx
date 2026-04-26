@@ -224,6 +224,7 @@ export default function Ordonnance() {
       </div>
 
       <div className="no-print bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead className="bg-slate-50 text-slate-500 text-xs uppercase font-semibold">
             <tr>
@@ -272,6 +273,7 @@ export default function Ordonnance() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       <div className="no-print">
